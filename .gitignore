@@ -1,0 +1,157 @@
+# .NET Core
+## Ignore build outputs
+bin/
+obj/
+
+# Visual Studio
+.vs/
+.vscode/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto generated files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Mac files
+.DS_Store
+
+# Log and database files
+*.log
+*.ldb
+*.mdf
+*.ldf
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+# Package directory (when NuGet packages are restored in packages/)
+packages/
+
+# MSBuild project files
+*.msbuild.binlog
+
+# Resharper/JetBrains Rider
+.idea/
+*.sln.iml
+_ReSharper*/ 
+*.DotSettings.user
+
+# Coverage Results
+TestResults/
+
+# Application Insights
+*.ai.json
+
+# Publish folder
+publish/
+app.publish/
+
+# Azure Functions
+local.settings.json
+FunctionAppSecrets/
+
+# Entity Framework
+*.jfm
+Migrations/
+
+# Rider
+.idea/
+
+# ASP.NET Scaffolding
+.scaffolding
+
+# ReactJS / Node.js
+## Dependency directories
+node_modules/
+jspm_packages/
+bower_components/
+
+# Build outputs
+build/
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime files
+*.pid
+*.seed
+*.pid.lock
+
+# Webpack/Babel files
+.cache/
+.parcel-cache/
+
+# Coverage reports
+coverage/
+
+# dotenv environment variables file
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Yarn
+.pnp.*
+.pnp/
+
+# ESLint cache
+.eslintcache
+
+# Next.js output
+.next/
+
+# Storybook
+out/
+
+# SvelteKit build outputs
+.svelte-kit/
+
+# Angular specific files
+.angular/
+
+# Optional npm cache directory
+.npm
+
+# Firebase files
+.firebase/
+
+# Log files
+logs/
+
+# Temporary files
+tmp/
+temp/
+
+# IDE specific files (VS Code, WebStorm, etc.)
+.vscode/
+.idea/
+
+# Jest Coverage Directory
+coverage/
+
+# Test Caches
+jest/

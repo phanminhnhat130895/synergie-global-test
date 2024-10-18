@@ -1,0 +1,15 @@
+﻿using Core.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Data
+{
+    public class DataContext : DbContext
+    {
+        public DataContext() { }
+
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
+        public virtual DbSet<FlashCard> FlashCards { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+    }
+}
