@@ -11,5 +11,10 @@ namespace Infrastructure.Data
 
         public virtual DbSet<FlashCard> FlashCards { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
+        }
     }
 }

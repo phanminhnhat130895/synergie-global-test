@@ -11,6 +11,8 @@ namespace Core.Entities
         public string Email { get; private set; }
         public string Password { get; private set; }
 
+        public List<FlashCard> FlashCards { get; private set; } = new List<FlashCard>();
+
         public User SetEmail(string email)
         {
             Email = email;
@@ -20,6 +22,12 @@ namespace Core.Entities
         public User SetPassword(string password)
         {
             Password = password;
+            return this;
+        }
+
+        public User AddFlashCard(FlashCard flashCard)
+        {
+            FlashCards.Add(flashCard);
             return this;
         }
     }

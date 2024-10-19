@@ -6,11 +6,13 @@ namespace Application.Queries.FlashCards.GetFlashCards
     {
         public int Page { get; }
         public int PageSize { get; }
+        public string UserId { get; }
 
-        public GetFlashCardsRequest(int page, int pageSize)
+        public GetFlashCardsRequest(int page, int pageSize, string userId)
         {
             Page = page;
             PageSize = pageSize;
+            UserId = userId;
         }
     }
 }
