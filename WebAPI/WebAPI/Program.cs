@@ -38,6 +38,8 @@ namespace WebAPI
                 options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             });
 
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseAuthorization();
 
             app.UseMiddleware<AuthMiddleware>();

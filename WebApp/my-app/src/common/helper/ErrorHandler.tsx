@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 export const handleError = (error: any) => {
   if (axios.isAxiosError(error)) {
-    var err = error.response;
+    const err = error.response;
     if (!err) {
       toast.error("Something went wrong!");
     }
@@ -16,7 +16,7 @@ export const handleError = (error: any) => {
         toast.error(err.data.errors[e][0]);
       }
     } else if (err?.data) {
-      toast.error(err.data);
+      toast.error(err.data.message);
     } else if (err?.status == 401) {
       toast.error("Please login");
       window.history.pushState({}, "LoginPage", "/login");
