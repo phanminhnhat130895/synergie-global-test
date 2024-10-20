@@ -4,7 +4,7 @@ import { CreateFlashCardResponse } from "../models/createFlashCardResponse";
 import { GetFlashCardsResponse } from "../models/getFlashCardsResponse";
 import { DeleteFlashCardResponse } from "../models/deleteFlashCardResponse";
 
-const api = "http://localhost:5167/api/";
+const api = process.env.REACT_APP_API_BASE_URL;
 
 export const getFlashCardsAPI = async (page: number, pageSize: number) => {
     try {

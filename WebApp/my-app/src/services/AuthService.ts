@@ -3,7 +3,7 @@ import { handleError } from "../common/helper/ErrorHandler";
 import { AuthenticationUserResponse } from "../models/authenticationUserResponse";
 import { CreateUserResponse } from "../models/createUserResponse";
 
-const api = "http://localhost:5167/api/";
+const api = process.env.REACT_APP_API_BASE_URL;
 
 export const loginAPI = async (email: string, password: string) => {
   try {
