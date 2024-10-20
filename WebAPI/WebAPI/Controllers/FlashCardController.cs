@@ -5,6 +5,7 @@ using Application.Queries.FlashCards.GetFlashCards;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebAPI.Input;
 
 namespace WebAPI.Controllers
 {
@@ -30,8 +31,10 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFlashCard([FromBody] CreateFlashCardRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateFlashCard([FromBody] CreateFlashCardInput input, CancellationToken cancellationToken)
         {
+            var userId = User.GetUserId();
+            var request = new CreateFlashCardRequest(input.Content, input.Meaning, userId);
             var response = await _mediator.Send(request, cancellationToken);
             return Ok(response);
         }

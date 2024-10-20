@@ -26,7 +26,9 @@ namespace Application.Queries.User.AuthenticateUser
                 throw new Exception("Email or password is incorrect.");
             }
 
-            var isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+            var hasRequestPassword = BCrypt.Net.BCrypt.HashPassword(request.Password, user.Salt);
+
+            var isPasswordValid = string.Equals(user.Password, hasRequestPassword, StringComparison.OrdinalIgnoreCase);
 
             if (!isPasswordValid)
             {

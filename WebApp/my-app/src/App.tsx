@@ -11,6 +11,7 @@ function App() {
     <>
       <UserProvider>
         <Provider store={store}>
+          <h1 className="page-title">English Learning Flashcards</h1>
           <Outlet />
           <ToastContainer
           position="top-right"

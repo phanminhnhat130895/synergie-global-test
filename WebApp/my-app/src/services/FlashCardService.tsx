@@ -23,6 +23,7 @@ export const createFlashCard = async (content: string, meaning: string) => {
         });
         return data;
     } catch (error) {
+        console.log(error);
         handleError(error);
     }
 }

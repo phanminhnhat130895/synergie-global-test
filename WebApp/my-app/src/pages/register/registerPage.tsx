@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { CheckPasswordStrength } from "../../common/helper/PasswordHelper";
 
 const RegisterPage = () => {
     const [email, setEmail] = useState('');
@@ -19,6 +20,11 @@ const RegisterPage = () => {
         if (password !== confirmPassword) {
             toast.error("Password is not match.");
             return;
+        }
+
+        if (!CheckPasswordStrength(password)) {
+            toast.error("Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character.");
+            return; 
         }
 
         await registerUser(email, password);

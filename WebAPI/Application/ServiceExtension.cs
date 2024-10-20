@@ -20,7 +20,7 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
             // jwt handler
-            services.Configure<JwtSettings>(option => configuration.GetSection("jwt_settings"));
+            services.Configure<JwtSettings>(configuration.GetSection("jwt_settings"));
             services.AddSingleton<IJwtHandler, JwtHandler>();
 
             return services;

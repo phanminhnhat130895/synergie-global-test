@@ -9,7 +9,7 @@ type UserContextType = {
   token: string | null;
   registerUser: (email: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
-  logout: () => void;
+  logoutUser: () => void;
   isLoggedIn: () => boolean;
 };
 
@@ -27,8 +27,10 @@ export const UserProvider = ({ children }: Props) => {
     if (token) {
       setToken(token);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      navigate("/");
     }
     setIsReady(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const registerUser = async (
@@ -51,9 +53,12 @@ export const UserProvider = ({ children }: Props) => {
       const response = await loginAPI(username, password);
       if (response) {
         localStorage.setItem("token", response.data.accessToken);
+        axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.accessToken;
         setToken(response.data.accessToken);
         toast.success("Login Success!");
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 100);
       }
     } catch {
       toast.warning("Server error occured")
@@ -64,16 +69,17 @@ export const UserProvider = ({ children }: Props) => {
     return !!token;
   };
 
-  const logout = async () => {
+  const logoutUser = async () => {
     await logoutAPI();
     localStorage.removeItem("token");
+    axios.defaults.headers.common["Authorization"] = "";
     setToken("");
     navigate("/");
   };
 
   return (
     <UserContext.Provider
-      value={{ loginUser, token, logout, isLoggedIn, registerUser }}
+      value={{ loginUser, token, logoutUser, isLoggedIn, registerUser }}
     >
       {isReady ? children : null}
     </UserContext.Provider>

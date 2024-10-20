@@ -19,17 +19,30 @@ namespace Application.Commands.Users.CreateUser
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            var password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            await CheckUserEmailExisting(request.Email, cancellationToken);
+
+            var salt = BCrypt.Net.BCrypt.GenerateSalt();
+            var password = BCrypt.Net.BCrypt.HashPassword(request.Password, salt);
 
             var user = new User(Guid.NewGuid())
                             .SetEmail(request.Email)
-                            .SetPassword(request.Password);
+                            .SetPassword(password)
+                            .SetSalt(salt);
 
             await _userRepository.CreateAsync(user, cancellationToken);
 
             await _unitOfWork.SaveAsync(cancellationToken);
 
             return new CreateUserResponse(true);
+        }
+
+        private async Task CheckUserEmailExisting(string email, CancellationToken cancellationToken)
+        {
+            var isExistingUserEmail = await _userRepository.CheckUserEmailExistingAsync(email, cancellationToken);
+            if (isExistingUserEmail)
+            {
+                throw new Exception($"User With Email {email} Has Been Existing.");
+            }
         }
     }
 }

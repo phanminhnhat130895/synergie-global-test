@@ -17,7 +17,7 @@ namespace WebAPI.Middlewares
         {
             var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
-            if (!_cache.TryGetValue(token, out _))
+            if (_cache.TryGetValue(token, out _))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsync("Token is not valid or expired.");

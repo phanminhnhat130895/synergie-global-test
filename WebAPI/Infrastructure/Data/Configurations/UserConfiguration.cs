@@ -20,6 +20,11 @@ namespace Infrastructure.Data.Configurations
                 .IsUnicode(false)
                 .HasMaxLength(500);
 
+            builder.Property(x => x.Salt)
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(255);
+
             builder.Property(x => x.DateCreated)
                 .HasColumnType("datetime2")
                 .IsRequired();

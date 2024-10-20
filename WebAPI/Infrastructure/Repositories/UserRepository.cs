@@ -2,11 +2,6 @@
 using Core.Entities;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
@@ -18,7 +13,12 @@ namespace Infrastructure.Repositories
 
         public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.DateDeleted == null, cancellationToken);
+        }
+
+        public async Task<bool> CheckUserEmailExistingAsync(string email, CancellationToken cancellationToken)
+        {
+            return await _context.Users.AnyAsync(u => u.Email.ToLower() == email.ToLower() && u.DateDeleted == null, cancellationToken);
         }
     }
 }

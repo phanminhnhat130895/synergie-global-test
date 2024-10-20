@@ -35,7 +35,7 @@ namespace Infrastructure.Data.Configurations
             builder.HasOne(x => x.User)
                 .WithMany(x => x.FlashCards)
                 .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

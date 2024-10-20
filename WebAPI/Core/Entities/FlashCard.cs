@@ -6,6 +6,7 @@ namespace Core.Entities
     {
         public FlashCard(Guid id) : base(id)
         {
+            DateCreated = DateTime.UtcNow;
         }
 
         public Guid UserId { get; private set; }

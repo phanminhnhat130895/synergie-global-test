@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { setFlashCardCount, setFlashCards } from "../../store/flashCardSlice";
 import './flashCardPage.css';
+import { TopBarComponent } from "../../components/topBar/topBar";
 
 const FlashCardPage = () => {
     const flashCards = useSelector((state: RootState) => state.flashCard.flashCards);
@@ -19,7 +20,7 @@ const FlashCardPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await getFlashCardsAPI(0, 1000);
+            const response = await getFlashCardsAPI(0, 99999);
             if (response) {
                 dispatch(setFlashCards(response.data.flashCards));
                 dispatch(setFlashCardCount(response.data.flashCardCount));
@@ -31,6 +32,7 @@ const FlashCardPage = () => {
         }
         
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const showMeaning = () => {
@@ -40,7 +42,7 @@ const FlashCardPage = () => {
     const showPrev = () => {
         setCurrentIndex(prev => {
             const value = prev - 1;
-            if (value > 0) {
+            if (value >= 0) {
                 setCurrentFlashCard(flashCards[value]);
                 return value;
             }
@@ -68,21 +70,28 @@ const FlashCardPage = () => {
             {
                 isLoading ? 
                 <div>Loading...</div> :
-                <div className="page">
-                    <div className="manage-section">
-                        <button className="button-control navigate-button manage-card-btn" onClick={goToAddCard}>Manage Cards</button>
+                <>
+                    <TopBarComponent />
+                    <div className="page">
+                        <div className="manage-section">
+                            <button className="button-control navigate-button manage-card-btn" onClick={goToAddCard}>Manage Cards</button>
+                        </div>
+                        <div className="card">
+                            <div className="card-content">{currentFlashCard?.content}</div>
+                            {isShowMeaning && <div className="card-meaning">{currentFlashCard?.meaning}</div>}
+                        </div>
+                        <div>
+                            <button className="button-control prev-button" onClick={showPrev} disabled={currentIndex === 0}>&lt;</button>
+                            <button className="button-control primary-button meaning-button" onClick={showMeaning} disabled={flashCardCount === 0}>
+                                {isShowMeaning ? 'Hide Meaning' : 'Show Meaning'}
+                            </button>
+                            <button className="button-control next-button" onClick={showNext} disabled={currentIndex === flashCardCount - 1 || flashCardCount === 0}>
+                                &gt;
+                            </button>
+                        </div>
+                        <p>Card {flashCardCount > 0 ? currentIndex + 1 : 0} of {flashCardCount}</p>
                     </div>
-                    <div className="card">
-                        <div className="card-content">{currentFlashCard?.content}</div>
-                        {isShowMeaning && <div className="card-meaning">{currentFlashCard?.meaning}</div>}
-                    </div>
-                    <div>
-                        <button className="button-control prev-button" onClick={showPrev} disabled={currentIndex === 0}>&lt;</button>
-                        <button className="button-control primary-button meaning-button" onClick={showMeaning}>{isShowMeaning ? 'Hide Meaning' : 'Show Meaning'}</button>
-                        <button className="button-control next-button" onClick={showNext} disabled={currentIndex === flashCardCount - 1}>&gt;</button>
-                    </div>
-                    <p>Card {flashCardCount > 0 ? currentIndex + 1 : 0} of {flashCardCount}</p>
-                </div>
+                </>
             }
         </>
         

@@ -14,12 +14,11 @@ namespace Application.Queries.FlashCards.GetFlashCards
 
         public async Task<GetFlashCardsResponse> Handle(GetFlashCardsRequest request, CancellationToken cancellationToken)
         {
-            var taskCountFlashCard = _flashCardRepository.CountFlashCardAsync(cancellationToken);
-            var taskGetFlashCard = _flashCardRepository.GetFlashCardsAsync(request, cancellationToken);
+            var countFlashCard = await _flashCardRepository.CountFlashCardAsync(request, cancellationToken);
+            var flashCards = await _flashCardRepository.GetFlashCardsAsync(request, cancellationToken);
+            flashCards = flashCards.OrderBy(f => f.DateCreated).ToList();
 
-            await Task.WhenAll(taskCountFlashCard, taskGetFlashCard);
-
-            var response = new GetFlashCardsResponse(taskGetFlashCard.Result, taskCountFlashCard.Result);
+            var response = new GetFlashCardsResponse(flashCards, countFlashCard);
 
             return response;
         }

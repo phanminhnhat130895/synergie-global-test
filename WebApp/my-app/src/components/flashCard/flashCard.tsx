@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
-import { FlashCard } from "../models/flashCard";
-import { deleteFlashCard } from "../services/FlashCardService";
-import { removeFlashCard } from "../store/flashCardSlice";
+import { FlashCard } from "../../models/flashCard";
+import { deleteFlashCard } from "../../services/FlashCardService";
+import { removeFlashCard } from "../../store/flashCardSlice";
 import './flashCard.css';
 
 type FlashCardProps = {

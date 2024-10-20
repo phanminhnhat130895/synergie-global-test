@@ -12,7 +12,7 @@ namespace Application.Security
     public class JwtHandler : IJwtHandler
     {
         private readonly JwtSettings _settings;
-        private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+        private JwtSecurityTokenHandler _jwtSecurityTokenHandler;
         private SecurityKey _issuerSigningKey;
         private SigningCredentials _signingCredentials;
         private JwtHeader _jwtHeader;
@@ -35,23 +35,19 @@ namespace Application.Security
 
         private void InitializeRsa()
         {
-            using (RSA publicRsa = RSA.Create())
-            {
-                var publicKeyXml = File.ReadAllText(_settings.RsaPublicKey);
-                RsaExtension.FromXmlString(publicRsa, publicKeyXml);
-                _issuerSigningKey = new RsaSecurityKey(publicRsa);
-            }
+            RSA publicRsa = RSA.Create();
+            var publicKeyXml = File.ReadAllText(_settings.RsaPublicKey);
+            RsaExtension.FromXmlString(publicRsa, publicKeyXml);
+            _issuerSigningKey = new RsaSecurityKey(publicRsa);
             if (string.IsNullOrEmpty(_settings.RsaPrivateKey))
             {
                 return;
             }
-            using (RSA privateRsa = RSA.Create())
-            {
-                var privateKeyXml = File.ReadAllText(_settings.RsaPrivateKey);
-                RsaExtension.FromXmlString(privateRsa, privateKeyXml);
-                var privateKey = new RsaSecurityKey(privateRsa);
-                _signingCredentials = new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
-            }
+            RSA privateRsa = RSA.Create();
+            var privateKeyXml = File.ReadAllText(_settings.RsaPrivateKey);
+            RsaExtension.FromXmlString(privateRsa, privateKeyXml);
+            var privateKey = new RsaSecurityKey(privateRsa);
+            _signingCredentials = new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
         }
 
         private void InitializeHmac()
@@ -91,6 +87,7 @@ namespace Application.Security
             };
 
             JwtSecurityToken token = new JwtSecurityToken(_settings.Issuer, _settings.Issuer, payload, nowUtc, expires, signingCredentials: _signingCredentials);
+            _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             return _jwtSecurityTokenHandler.WriteToken(token);
         }
     }

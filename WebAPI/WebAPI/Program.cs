@@ -1,6 +1,8 @@
 using WebAPI.Middlewares;
 using Infrastructure;
 using Application;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Application.Security;
 
 namespace WebAPI
 {
@@ -13,6 +15,14 @@ namespace WebAPI
             var configuration = builder.Configuration;
 
             // Add services to the container.
+            builder.Services.AddMemoryCache();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = builder.Services.BuildServiceProvider().GetService<IJwtHandler>().Parameters;
+            });
 
             builder.Services.AddInfrastructure(configuration);
 
@@ -23,10 +33,14 @@ namespace WebAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
-            app.UseMiddleware<AuthMiddleware>();
+            app.UseCors(options =>
+            {
+                options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
 
             app.UseAuthorization();
+
+            app.UseMiddleware<AuthMiddleware>();
 
             app.MapControllers();
 
