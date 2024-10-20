@@ -18,24 +18,20 @@ const FlashCardPage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setCurrentFlashCard(flashCards[currentIndex]);
-    }, [])
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const response = await getFlashCardsAPI(0, 1000);
-    //         if (response) {
-    //             dispatch(setFlashCards(response.data.flashCards));
-    //             dispatch(setFlashCardCount(response.data.flashCardCount));
-    //             if (response.data.flashCards.length > 0) {
-    //                 setCurrentFlashCard(response.data.flashCards[currentIndex]);
-    //             }
-    //         }
-    //         setIsLoading(false);
-    //     }
+        const fetchData = async () => {
+            const response = await getFlashCardsAPI(0, 1000);
+            if (response) {
+                dispatch(setFlashCards(response.data.flashCards));
+                dispatch(setFlashCardCount(response.data.flashCardCount));
+                if (response.data.flashCards.length > 0) {
+                    setCurrentFlashCard(response.data.flashCards[currentIndex]);
+                }
+            }
+            setIsLoading(false);
+        }
         
-    //     fetchData();
-    // }, [])
+        fetchData();
+    }, [])
 
     const showMeaning = () => {
         setIsShowMeaning(prev => !prev);
