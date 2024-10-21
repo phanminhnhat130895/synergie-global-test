@@ -72,7 +72,6 @@ FunctionAppSecrets/
 
 # Entity Framework
 *.jfm
-Migrations/
 
 # Rider
 .idea/

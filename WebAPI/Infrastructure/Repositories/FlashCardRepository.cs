@@ -15,7 +15,10 @@ namespace Infrastructure.Repositories
         public async Task<IReadOnlyCollection<FlashCard>> GetFlashCardsAsync(GetFlashCardsRequest request, CancellationToken cancellationToken)
         {
             var userId = Guid.Parse(request.UserId);
-            return await _context.FlashCards.Where(f => f.UserId == userId && f.DateDeleted == null).Skip(request.Page * request.PageSize).Take(request.PageSize).ToListAsync(cancellationToken);
+            return await _context.FlashCards.AsNoTracking().Where(f => f.UserId == userId && f.DateDeleted == null)
+                                            .Skip(request.Page * request.PageSize)
+                                            .Take(request.PageSize)
+                                            .ToListAsync(cancellationToken);
         }
 
         public async Task<int> CountFlashCardAsync(GetFlashCardsRequest request, CancellationToken cancellationToken)
